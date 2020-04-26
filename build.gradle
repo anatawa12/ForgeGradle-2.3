@@ -1,9 +1,4 @@
 buildscript {
-    repositories {
-        maven {
-            url "https://plugins.gradle.org/m2/"
-        }
-    }
     dependencies {
         classpath "com.gradle.publish:plugin-publish-plugin:0.9.1"
         classpath 'nl.javadude.gradle.plugins:license-gradle-plugin:0.11.0'
@@ -12,16 +7,25 @@ buildscript {
     }
 }
 
+plugins {
+    id "com.jfrog.bintray" version "1.8.4"
+    id "maven-publish"
+}
+
 apply plugin: 'java'
 apply plugin: 'idea'
 apply plugin: 'eclipse'
 apply plugin: 'maven'
-apply plugin: "com.gradle.plugin-publish"
 apply plugin: 'license'
 
-group = 'net.minecraftforge.gradle'
-version = '2.3-SNAPSHOT'
-//version = '2.2.1'
+group = 'com.anatawa12.forge'
+
+if (project.hasProperty("push_release")) {
+    version = '2.3-1.0.0'
+} else {
+    version = '2.3-1.0.0-SNAPSHOT'
+}
+
 archivesBaseName = 'ForgeGradle'
 targetCompatibility = '1.8'
 sourceCompatibility = '1.8'
@@ -112,8 +116,8 @@ dependencies {
     testCompile 'junit:junit:4.12'
 }
 
-task wrapper(type: Wrapper) {
-    gradleVersion = '2.14'
+wrapper {
+    gradleVersion = '4.10'
 }
 
 sourceSets {
@@ -326,100 +330,96 @@ license {
     }
 }
 
-pluginBundle {
-    website = 'http://www.gradle.org/'
-    vcsUrl = 'https://github.com/MinecraftForge/ForgeGradle'
-    description = 'Gradle plugin for all Minecraft mod development needs'
-    tags = ['forge', 'minecraft', 'minecraftforge', 'sponge', 'mcp']
-
-    plugins {
-        patcher {
-            id = 'net.minecraftforge.gradle.patcher'
-            displayName = 'Minicraft Patcher Plugin'
-        }
-        tweakerClient {
-            id = 'net.minecraftforge.gradle.tweaker-client'
-            displayName = 'Mincraft Client Tweaker Plugin'
-        }
-        tweakerServer {
-            id = 'net.minecraftforge.gradle.tweaker-server'
-            displayName = 'Mincraft Server Tweaker Plugin'
-        }
-        forge {
-            id = 'net.minecraftforge.gradle.forge'
-            displayName = 'MincraftForge Mod Development Plugin'
-        }
-
-        launch4j {
-            id = 'net.minecraftforge.gradle.launch4j'
-            displayName = 'Specialized Launch4J Gradle Plugin'
-        }
-    }
+task sourcesJar(type: Jar, dependsOn: javadoc) {
+    from sourceSets.main.allSource
+    classifier = "sources"
 }
 
-uploadArchives {
-    repositories.mavenDeployer {
+publishing {
+    publications {
+        bintray(MavenPublication) {
+            from components.java
+            artifact sourcesJar
+            artifact javadocJar
 
-        dependsOn 'build'
-
-        if (project.hasProperty('forgeMavenPassword'))
-        {
-            repository(url: "https://files.minecraftforge.net/maven/manage/upload") {
-                authentication(userName: project.getProperty('forgeMavenUser'), password: project.getProperty('forgeMavenPassword'))
-            }
-        }
-        else
-        {
-            // local repo folder. Might wanna juset use  gradle install   if you wanans end it to maven-local
-            repository(url: 'file://localhost/' + project.file('repo').getAbsolutePath())
-        }
-
-
-        pom {
-            groupId = project.group
-            version = project.version
-            artifactId = project.archivesBaseName
-            project {
-                name project.archivesBaseName
-                packaging 'jar'
-                description 'Gradle plugin for Forge'
-                url 'https://github.com/MinecraftForge/ForgeGradle'
+            pom {
+                name = project.archivesBaseName
+                description = 'Gradle plugin for Forge'
+                url = 'https://github.com/anatawa12/ForgeGradle-2.3'
 
                 scm {
-                    url 'https://github.com/MinecraftForge/ForgeGradle'
-                    connection 'scm:git:git://github.com/MinecraftForge/ForgeGradle.git'
-                    developerConnection 'scm:git:git@github.com:MinecraftForge/ForgeGradle.git'
+                    url = 'https://github.com/anatawa12/ForgeGradle-2.3'
+                    connection = 'scm:git:git://github.com/anatawa12/ForgeGradle-2.3.git'
+                    developerConnection = 'scm:git:git@github.com:anatawa12/ForgeGradle-2.3.git'
                 }
 
                 issueManagement {
-                    system 'github'
-                    url 'https://github.com/MinecraftForge/ForgeGradle/issues'
+                    system = 'github'
+                    url = 'https://github.com/anatawa12/ForgeGradle-2.3/issues'
                 }
 
                 licenses {
                     license {
-                        name 'Lesser GNU Public License, Version 2.1'
-                        url 'https://www.gnu.org/licenses/lgpl-2.1.html'
-                        distribution 'repo'
+                        name = 'Lesser GNU Public License, Version 2.1'
+                        url = 'https://www.gnu.org/licenses/lgpl-2.1.html'
+                        distribution = 'repo'
                     }
                 }
 
                 developers {
                     developer {
-                        id 'AbrarSyed'
-                        name 'Abrar Syed'
-                        roles { role 'developer' }
+                        id = 'AbrarSyed'
+                        name = 'Abrar Syed'
+                        roles = [ 'developer' ]
                     }
+
                     developer {
-                        id 'LexManos'
-                        name 'Lex Manos'
-                        roles { role 'developer' }
+                        id = 'LexManos'
+                        name = 'Lex Manos'
+                        roles = [ 'developer' ]
+                    }
+
+                    developer {
+                        id = 'anatawa12'
+                        name = 'anatawa12'
+                        roles = [ 'developer' ]
                     }
                 }
             }
         }
     }
+    repositories {
+        maven {
+            // change URLs to point to your repos, e.g. http://my.org/repo
+            def releasesRepoUrl = "$buildDir/repos/releases"
+            def snapshotsRepoUrl = "$buildDir/repos/snapshots"
+            url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
+        }
+    }
 }
+
+if (project.hasProperty("push_release")) {
+    bintray {
+        user = project.hasProperty("BINTRAY_USER") ? BINTRAY_USER : ""
+        key = project.hasProperty("BINTRAY_KEY") ? BINTRAY_KEY : ""
+        publications = ["bintray"]
+
+        pkg {
+            repo = "maven"
+            name = group + "." + project.name
+            licenses = ["LGPL-2.1"]
+            websiteUrl = "https://github.com/anatawa12/ForgeGradle-2.3/"
+            issueTrackerUrl = "https://github.com/anatawa12/ForgeGradle-2.3/issues"
+            vcsUrl = "https://github.com/anatawa12/ForgeGradle-2.3.git"
+            publicDownloadNumbers = true
+            version {
+                name = project.version
+            }
+        }
+    }
+}
+
+bintrayUpload.dependsOn assemble
 
 // write out version so its convenient for doc deployment
 file('build').mkdirs()
