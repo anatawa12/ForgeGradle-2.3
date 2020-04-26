@@ -117,7 +117,8 @@ dependencies {
 }
 
 wrapper {
-    gradleVersion = '4.10'
+    gradleVersion = '6.3'
+    distributionType = Wrapper.DistributionType.ALL
 }
 
 sourceSets {
