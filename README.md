@@ -16,7 +16,7 @@ Example project is now Work In Progress. please wait.
 ## How to use this ForgeGradle instead of official ForgeGradle
 
 - add jcenter() if not added in repositories in buildscript block.
-- replace "net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT" with "com.anatawa12.forge:ForgeGradle:2.3-1.0.0"
+- replace "net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT" with "com.anatawa12.forge:ForgeGradle:2.3-1.0.1"
 
 if you aren't add any libraries for buildscript, you may able to use buildscript block shown below:
 
@@ -30,7 +30,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath "com.anatawa12.forge:ForgeGradle:2.3-1.0.0"
+        classpath "com.anatawa12.forge:ForgeGradle:2.3-1.0.1"
     }
 }
 ```
