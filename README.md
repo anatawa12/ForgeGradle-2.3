@@ -12,3 +12,25 @@ This project is a fork of [ForgeGradle branch 'FG_2.3'](https://github.com/Minec
 <!-- [Example project found here](https://github.com/anatawa12/ForgeGradle-example) -->
 
 Example project is now Work In Progress. please wait.
+
+## How to use this ForgeGradle instead of official ForgeGradle
+
+- add jcenter() if not added in repositories in buildscript block.
+- replace "net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT" with "com.anatawa12.forge:ForgeGradle:2.3-1.0.0"
+
+if you aren't add any libraries for buildscript, you may able to use buildscript block shown below:
+
+```groovy
+buildscript {
+    repositories {
+        jcenter()
+        maven {
+            name = "forge"
+            url = "https://files.minecraftforge.net/maven"
+        }
+    }
+    dependencies {
+        classpath "com.anatawa12.forge:ForgeGradle:2.3-1.0.0"
+    }
+}
+```
