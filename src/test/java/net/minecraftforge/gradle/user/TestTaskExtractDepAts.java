@@ -22,7 +22,8 @@ package net.minecraftforge.gradle.user;
 import net.minecraftforge.gradle.testsupport.TaskTest;
 import net.minecraftforge.gradle.testsupport.TestResource;
 import org.gradle.api.internal.artifacts.dependencies.DefaultSelfResolvingDependency;
-import org.gradle.api.internal.file.collections.SimpleFileCollection;
+import org.gradle.api.internal.file.collections.FileCollectionAdapter;
+import org.gradle.api.internal.file.collections.ListBackedFileSet;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -39,7 +40,7 @@ public class TestTaskExtractDepAts extends TaskTest<TaskExtractDepAts>
             throw new IOException("Couldn't create file in " + outputDir);
         File modWithAtJar = TestResource.MOD_WITH_AT.getFile(temporaryFolder);
         TaskExtractDepAts task = getTask(TaskExtractDepAts.class);
-        task.getProject().getConfigurations().maybeCreate("test_at").getDependencies().add(new DefaultSelfResolvingDependency(new SimpleFileCollection(modWithAtJar)));
+        task.getProject().getConfigurations().maybeCreate("test_at").getDependencies().add(new DefaultSelfResolvingDependency(new FileCollectionAdapter(new ListBackedFileSet(modWithAtJar))));
         task.addCollection("test_at");
         task.setOutputDir(outputDir);
         task.doTask();
