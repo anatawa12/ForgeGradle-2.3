@@ -23,6 +23,7 @@ package net.minecraftforge.gradle.user;
 import java.io.File;
 import java.util.List;
 
+import net.minecraftforge.gradle.ArchiveTaskHelper;
 import org.gradle.api.Action;
 import org.gradle.api.NamedDomainObjectFactory;
 import org.gradle.api.Project;
@@ -59,7 +60,7 @@ public class ReobfTaskFactory implements NamedDomainObjectFactory<IReobfuscator>
         Closure<File> outputJar = new Closure<File>(ReobfTaskFactory.class) {
             public File call()
             {
-                return ((Jar) plugin.project.getTasks().getByName(jarName)).getArchivePath();
+                return ArchiveTaskHelper.getArchivePath((Jar) plugin.project.getTasks().getByName(jarName));
             }
         };
 

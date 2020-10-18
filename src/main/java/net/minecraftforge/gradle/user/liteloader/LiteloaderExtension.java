@@ -21,6 +21,7 @@
 package net.minecraftforge.gradle.user.liteloader;
 
 import com.google.common.base.Strings;
+import net.minecraftforge.gradle.ArchiveTaskHelper;
 import net.minecraftforge.gradle.user.UserBaseExtension;
 import org.gradle.api.InvalidUserDataException;
 import org.gradle.jvm.tasks.Jar;
@@ -42,8 +43,8 @@ public class LiteloaderExtension extends UserBaseExtension
         this.checkVersion(version);
 
         Jar jar = (Jar)project.getTasks().getByName("jar");
-        if (Strings.isNullOrEmpty(jar.getClassifier())) {
-            jar.setClassifier("mc" + version);
+        if (Strings.isNullOrEmpty(ArchiveTaskHelper.getClassifier(jar))) {
+            ArchiveTaskHelper.setClassifier(jar,"mc" + version);
         }
     }
 
