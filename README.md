@@ -23,14 +23,16 @@ if you aren't add any libraries for buildscript, you may able to use buildscript
 ```groovy
 buildscript {
     repositories {
-        jcenter()
+        mavenCentral()
         maven {
             name = "forge"
             url = "https://files.minecraftforge.net/maven"
         }
     }
     dependencies {
-        classpath "com.anatawa12.forge:ForgeGradle:2.3-1.0.1"
+        classpath("com.anatawa12.forge:ForgeGradle:2.3-1.0.+") {
+            changing = true
+        }
     }
 }
 ```
