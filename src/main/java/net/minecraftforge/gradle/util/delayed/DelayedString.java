@@ -1,6 +1,7 @@
 /*
  * A Gradle plugin for the creation of Minecraft mods and MinecraftForge plugins.
  * Copyright (C) 2013-2019 Minecraft Forge
+ * Copyright (C) 2020-2021 anatawa12 and other contributors
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -27,7 +28,7 @@ public class DelayedString extends DelayedBase<String>
     {
         super(owner, provider, pattern);
     }
-    
+
     public DelayedString(Class<?> owner, TokenReplacer replacer)
     {
         super(owner, replacer);
