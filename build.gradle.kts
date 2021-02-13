@@ -1,7 +1,7 @@
-import java.util.zip.*
 import org.objectweb.asm.*
 import org.objectweb.asm.tree.*
 import java.util.*
+import java.util.zip.*
 
 buildscript {
     dependencies {
@@ -328,6 +328,8 @@ val test by tasks.getting(Test::class) {
 
 fun Project.license(configure: nl.javadude.gradle.plugins.license.LicenseExtension.() -> Unit): Unit =
     (this as ExtensionAware).extensions.configure("license", configure)
+fun nl.javadude.gradle.plugins.license.LicenseExtension.ext(configure: ExtraPropertiesExtension.()->Unit): Unit =
+    (this as ExtensionAware).extensions.configure("ext", configure)
 
 license {
     ext {
