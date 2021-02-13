@@ -38,10 +38,12 @@ import org.gradle.api.DefaultTask;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.gradle.api.Task;
+import org.gradle.api.artifacts.ArtifactRepositoryContainer;
 import org.gradle.api.artifacts.Configuration;
 import org.gradle.api.artifacts.Dependency;
 import org.gradle.api.artifacts.Configuration.State;
 import org.gradle.api.artifacts.dsl.DependencyHandler;
+import org.gradle.api.artifacts.repositories.ArtifactRepository;
 import org.gradle.api.artifacts.repositories.FlatDirectoryArtifactRepository;
 import org.gradle.api.artifacts.repositories.MavenArtifactRepository;
 import org.gradle.api.logging.Logger;
@@ -282,8 +284,39 @@ public abstract class BasePlugin<K extends BaseExtension> implements Plugin<Proj
         for (String str : lines)
             LOGGER.lifecycle(str);
 
+        if (!hasMavenCentralBeforeJCenterInBuildScriptRepositories()) {
+            LOGGER.lifecycle("");
+            LOGGER.warn("The jcenter maven repository is going to be closed.");
+            LOGGER.warn("The fork of ForgeGradle by anatawa12 will use the maven central repository.");
+            LOGGER.warn("In the near future, this ForgeGradle will not be published onto the jcenter.");
+            LOGGER.warn("Please add the maven central repository to the repositories for");
+            LOGGER.warn("buildscript before or as a replacement of jcenter.");
+        }
+
         displayBanner = false;
     }
+
+    private boolean hasMavenCentralBeforeJCenterInBuildScriptRepositories() {
+        java.net.URI mavenCentralUrl;
+        try {
+            mavenCentralUrl = project.uri(ArtifactRepositoryContainer.class
+                    .getField("MAVEN_CENTRAL_URL").get(null));
+        } catch (IllegalAccessException | NoSuchFieldException e) {
+            throw new RuntimeException(e);
+        }
+        for (ArtifactRepository repository : project.getBuildscript().getRepositories()) {
+            if (repository instanceof MavenArtifactRepository) {
+                MavenArtifactRepository mvnRepo = (MavenArtifactRepository) repository;
+                // requires before the jcenter
+                if (mvnRepo.getUrl().toString().equals("https://jcenter.bintray.com/"))
+                    return false;
+                if (mvnRepo.getUrl().equals(mavenCentralUrl))
+                    return true;
+            }
+        }
+        return false;
+    }
+
 
     private String getVersionString()
     {
