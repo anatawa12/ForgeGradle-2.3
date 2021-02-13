@@ -19,6 +19,7 @@ plugins {
     idea
     eclipse
     maven
+    signing
 }
 
 apply(plugin = "license")
@@ -417,6 +418,10 @@ publishing {
             else uri("https://oss.sonatype.org/service/local/staging/deploy/maven2/")
         }
     }
+}
+
+signing {
+    sign(publishing.publications["bintray"])
 }
 
 if (project.hasProperty("push_release")) {
