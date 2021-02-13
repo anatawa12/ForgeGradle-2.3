@@ -1,6 +1,7 @@
 /*
  * A Gradle plugin for the creation of Minecraft mods and MinecraftForge plugins.
  * Copyright (C) 2013-2019 Minecraft Forge
+ * Copyright (C) 2020-2021 anatawa12 and other contributors
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -34,7 +35,7 @@ public class CopyInto extends Closure<Object>
     private String dir;
     private String[] filters;
     private HashMap<String, Object> expands = new HashMap<String, Object>();
-    
+
     public CopyInto(Class<?> owner, String dir)
     {
         super(owner);
@@ -48,13 +49,13 @@ public class CopyInto extends Closure<Object>
         this.dir = dir;
         this.filters = filters;
     }
-    
+
     public CopyInto addExpand(String key, String value)
     {
         expands.put(key, value);
         return this;
     }
-    
+
     public CopyInto addExpand(String key, DelayedString value)
     {
         expands.put(key, value);
@@ -65,22 +66,22 @@ public class CopyInto extends Closure<Object>
     public Object call(Object... args)
     {
         CopySpec spec = (CopySpec)getDelegate();
-        
+
         // do filters
         for (String s : filters)
         {
             if (s.startsWith("!")) spec.exclude(s.substring(1));
             else                   spec.include(s);
         }
-        
+
         // expands
-        
+
         if (!expands.isEmpty())
             spec.expand(expands);
-        
+
         if (!Strings.isNullOrEmpty(dir))
             spec.into(dir);
-        
+
         return null;
     }
 };

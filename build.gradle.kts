@@ -334,8 +334,8 @@ fun nl.javadude.gradle.plugins.license.LicenseExtension.ext(configure: ExtraProp
 license {
     ext {
         this["description"] = "A Gradle plugin for the creation of Minecraft mods and MinecraftForge plugins."
-        this["year"] = "2013-" + Calendar.getInstance().get(Calendar.YEAR)
-        this["fullname"] = "Minecraft Forge"
+        this["year"] = "2020-" + Calendar.getInstance().get(Calendar.YEAR)
+        this["fullname"] = "anatawa12 and other contributors"
     }
     header = rootProject.file("HEADER")
     include("**net/minecraftforge/gradle/**/*.java")

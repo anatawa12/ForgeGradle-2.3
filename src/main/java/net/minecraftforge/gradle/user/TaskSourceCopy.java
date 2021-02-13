@@ -1,6 +1,7 @@
 /*
  * A Gradle plugin for the creation of Minecraft mods and MinecraftForge plugins.
  * Copyright (C) 2013-2019 Minecraft Forge
+ * Copyright (C) 2020-2021 anatawa12 and other contributors
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -81,7 +82,7 @@ public class TaskSourceCopy extends DefaultTask
         {
             if (e.getKey() == null || e.getValue() == null)
                 continue; // we dont deal with nulls.
-            
+
             Object val = e.getValue();
             while (val instanceof Closure)
                 val = ((Closure<Object>) val).call();

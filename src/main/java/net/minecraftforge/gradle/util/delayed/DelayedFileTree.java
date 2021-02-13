@@ -1,6 +1,7 @@
 /*
  * A Gradle plugin for the creation of Minecraft mods and MinecraftForge plugins.
  * Copyright (C) 2013-2019 Minecraft Forge
+ * Copyright (C) 2020-2021 anatawa12 and other contributors
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -29,27 +30,27 @@ public class DelayedFileTree extends DelayedBase<FileTree>
 {
     protected final File hardcoded;
     protected transient final Project project;
-    
+
     public DelayedFileTree(Class<?> owner, File file)
     {
         super(owner, (TokenReplacer)null);
         hardcoded = file;
         project = null;
     }
-    
+
     public DelayedFileTree(Class<?> owner, Project project, ReplacementProvider provider, String pattern)
     {
         super(owner, provider, pattern);
         hardcoded = null;
         this.project = project;
     }
-    
+
     public DelayedFileTree(Class<?> owner, Project project, TokenReplacer replacer)
     {
         super(owner, replacer);
         hardcoded = null;
         this.project = project;
-        
+
     }
 
     @Override
@@ -57,7 +58,7 @@ public class DelayedFileTree extends DelayedBase<FileTree>
     {
         String name;
         File file;
-        
+
         if (hardcoded != null)
         {
             name = hardcoded.getName();
@@ -68,7 +69,7 @@ public class DelayedFileTree extends DelayedBase<FileTree>
             name = replaced;
             file = project.file(replaced);
         }
-        
+
         if (name.endsWith(".jar") || name.endsWith(".zip"))
         {
             return project.zipTree(file);

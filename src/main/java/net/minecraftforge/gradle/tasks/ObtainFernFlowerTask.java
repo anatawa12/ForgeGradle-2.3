@@ -1,6 +1,7 @@
 /*
  * A Gradle plugin for the creation of Minecraft mods and MinecraftForge plugins.
  * Copyright (C) 2013-2019 Minecraft Forge
+ * Copyright (C) 2020-2021 anatawa12 and other contributors
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -58,7 +59,7 @@ public class ObtainFernFlowerTask extends CachedTask
             this.setDidWork(false);
             return;
         }
-        
+
         File ff = getFfJar();
         String url = getMcpUrl();
 
@@ -91,17 +92,17 @@ public class ObtainFernFlowerTask extends CachedTask
     {
         return mcpUrl.call();
     }
-    
+
     public void setMcpUrl(DelayedString mcpUrl)
     {
         this.mcpUrl = mcpUrl;
     }
-    
+
     public File getFfJar()
     {
         return ffJar.call();
     }
-    
+
     public void setFfJar(DelayedFile ffJar)
     {
         this.ffJar = ffJar;
