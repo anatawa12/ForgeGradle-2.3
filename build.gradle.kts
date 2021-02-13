@@ -145,7 +145,7 @@ val compileJava by tasks.getting(JavaCompile::class) {
 val processResources by tasks.getting(Copy::class) {
     from(sourceSets.main.get().resources.srcDirs) {
         include("forgegradle.version.txt")
-        expand(mapOf("version" to project.version))
+        expand(mutableMapOf("version" to project.version))
     }
     from(sourceSets.main.get().resources.srcDirs) {
         exclude("forgegradle.version.txt")
