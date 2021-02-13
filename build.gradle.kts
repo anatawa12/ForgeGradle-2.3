@@ -19,6 +19,7 @@ plugins {
     idea
     eclipse
     maven
+    signing
 }
 
 apply(plugin = "license")
@@ -310,10 +311,10 @@ val javadoc by tasks.getting(Javadoc::class) {
     options.links("http://asm.ow2.org/asm50/javadoc/user/")
 }
 
-val javadocJar by tasks.creating(Jar::class) {
-    dependsOn(javadoc)
-    from(javadoc)
-    classifier = "javadoc"
+@Suppress("UnstableApiUsage")
+java {
+    withJavadocJar()
+    withSourcesJar()
 }
 
 artifacts {
@@ -352,18 +353,10 @@ license {
     ))
 }
 
-val sourcesJar by tasks.creating(Jar::class) {
-    dependsOn(javadoc)
-    from(sourceSets["main"].allSource)
-    classifier = "sources"
-}
-
 publishing {
     publications {
         val bintray by creating(MavenPublication::class) {
             from(components["java"])
-            artifact(sourcesJar)
-            artifact(javadocJar)
 
             pom {
                 name.set(project.base.archivesBaseName)
@@ -425,6 +418,10 @@ publishing {
             else uri("https://oss.sonatype.org/service/local/staging/deploy/maven2/")
         }
     }
+}
+
+signing {
+    sign(publishing.publications["bintray"])
 }
 
 if (project.hasProperty("push_release")) {
