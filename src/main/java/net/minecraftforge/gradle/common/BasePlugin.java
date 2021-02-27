@@ -33,6 +33,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import net.minecraftforge.gradle.util.ReflectionUtil;
 import net.minecraftforge.gradle.util.json.version.ManifestVersion;
 import org.gradle.api.Action;
 import org.gradle.api.DefaultTask;
@@ -47,6 +48,8 @@ import org.gradle.api.artifacts.dsl.DependencyHandler;
 import org.gradle.api.artifacts.repositories.ArtifactRepository;
 import org.gradle.api.artifacts.repositories.FlatDirectoryArtifactRepository;
 import org.gradle.api.artifacts.repositories.MavenArtifactRepository;
+import org.gradle.api.initialization.Settings;
+import org.gradle.api.initialization.dsl.ScriptHandler;
 import org.gradle.api.logging.Logger;
 import org.gradle.api.logging.Logging;
 import org.gradle.api.plugins.ExtraPropertiesExtension;
@@ -307,6 +310,13 @@ public abstract class BasePlugin<K extends BaseExtension> implements Plugin<Proj
         } catch (IllegalAccessException | NoSuchFieldException e) {
             throw new RuntimeException(e);
         }
+        Settings settings = ReflectionUtil.getSettingsOrNull(project.getGradle());
+        return hasMavenCentralBeforeJCenter(project.getBuildscript(), mavenCentralUrl) ||
+                (settings != null && hasMavenCentralBeforeJCenter(settings.getBuildscript(), mavenCentralUrl));
+    }
+
+    private boolean hasMavenCentralBeforeJCenter(
+            ScriptHandler buildScript, java.net.URI mavenCentralUrl) {
         for (ArtifactRepository repository : project.getBuildscript().getRepositories()) {
             if (repository instanceof MavenArtifactRepository) {
                 MavenArtifactRepository mvnRepo = (MavenArtifactRepository) repository;
@@ -404,15 +414,17 @@ public abstract class BasePlugin<K extends BaseExtension> implements Plugin<Proj
         Project parent = project;
         Dependency fgDepTemp = null;
         Configuration buildscriptClasspath = null;
-        while (parent != null && fgDepTemp == null) {
-            buildscriptClasspath = parent.getBuildscript().getConfigurations().getByName("classpath");
-            fgDepTemp = Iterables.getFirst(buildscriptClasspath.getDependencies().matching(new Spec<Dependency>() {
-                @Override
-                public boolean isSatisfiedBy(Dependency element)
-                {
-                    return element.getName().equals(GROUP_FG);
-                }
-            }), null);
+        while (fgDepTemp == null) {
+            if (parent != null) {
+                buildscriptClasspath = parent.getBuildscript().getConfigurations().getByName("classpath");
+            } else {
+                Settings settings = ReflectionUtil.getSettingsOrNull(project.getGradle());
+                if (settings == null) break;
+                buildscriptClasspath = settings.getBuildscript().getConfigurations().getByName("classpath");
+            }
+            fgDepTemp = Iterables.getFirst(buildscriptClasspath.getDependencies()
+                    .matching(element -> element.getName().equals(GROUP_FG)), null);
+            if (parent == null) break;
             parent = parent.getParent();
         }
         final Dependency fgDep = fgDepTemp;
