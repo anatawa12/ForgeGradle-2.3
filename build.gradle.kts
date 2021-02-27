@@ -119,7 +119,7 @@ dependencies {
        exclude(group = "org.ow2.asm")
     }
 
-    compileOnly("org.jetbrains.kotlin:kotlin-gradle-plugin:1.1.3-2")
+    //compileOnly("org.jetbrains.kotlin:kotlin-gradle-plugin:1.1.3-2")
     testCompile("junit:junit:4.12")
 }
 

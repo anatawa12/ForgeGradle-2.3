@@ -25,6 +25,7 @@ import static net.minecraftforge.gradle.user.UserConstants.*;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,6 +40,8 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import net.minecraftforge.gradle.util.ReflectionUtil;
+import org.codehaus.groovy.runtime.callsite.CallSite;
 import org.gradle.api.Action;
 import org.gradle.api.DefaultTask;
 import org.gradle.api.NamedDomainObjectContainer;
@@ -60,6 +63,7 @@ import org.gradle.api.artifacts.result.DependencyResult;
 import org.gradle.api.artifacts.result.ResolvedArtifactResult;
 import org.gradle.api.file.ConfigurableFileCollection;
 import org.gradle.api.file.FileTreeElement;
+import org.gradle.api.file.SourceDirectorySet;
 import org.gradle.api.internal.plugins.DslObject;
 import org.gradle.api.plugins.JavaPlugin;
 import org.gradle.api.plugins.JavaPluginConvention;
@@ -70,6 +74,7 @@ import org.gradle.api.tasks.JavaExec;
 import org.gradle.api.tasks.ScalaSourceSet;
 import org.gradle.api.tasks.SourceSet;
 import org.gradle.api.tasks.bundling.Jar;
+import org.gradle.api.tasks.compile.AbstractCompile;
 import org.gradle.api.tasks.compile.GroovyCompile;
 import org.gradle.api.tasks.compile.JavaCompile;
 import org.gradle.api.tasks.javadoc.Javadoc;
@@ -78,8 +83,6 @@ import org.gradle.jvm.JvmLibrary;
 import org.gradle.language.base.artifact.SourcesArtifact;
 import org.gradle.plugins.ide.eclipse.model.EclipseModel;
 import org.gradle.plugins.ide.idea.model.IdeaModel;
-import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet;
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -609,16 +612,16 @@ public abstract class UserBasePlugin<T extends UserBaseExtension> extends BasePl
                 // kotlin
                 if (project.getPlugins().hasPlugin("kotlin"))
                 {
-                    KotlinSourceSet langSet = (KotlinSourceSet) new DslObject(set).getConvention().getPlugins().get("kotlin");
+                    Object langSet = new DslObject(set).getConvention().getPlugins().get("kotlin");
                     File dir = new File(dirRoot, "kotlin");
 
                     task = makeTask(taskPrefix+"Kotlin", TaskSourceCopy.class);
-                    task.setSource(langSet.getKotlin());
+                    task.setSource((SourceDirectorySet)ReflectionUtil.callMethod(langSet, "getKotlin"));
                     task.setOutput(dir);
 
                     // must get replacements from extension afterEValuate()
 
-                    KotlinCompile compile = (KotlinCompile) project.getTasks().getByName(set.getCompileTaskName("kotlin"));
+                    AbstractCompile compile = (AbstractCompile) project.getTasks().getByName(set.getCompileTaskName("kotlin"));
                     compile.dependsOn(task);
                     compile.setSource(dir);
                     Path dirPath = dir.toPath();
@@ -889,8 +892,12 @@ public abstract class UserBasePlugin<T extends UserBaseExtension> extends BasePl
                 }
                 if (project.getPlugins().hasPlugin("kotlin"))
                 {
-                    KotlinSourceSet langSet = (KotlinSourceSet) new DslObject(main).getConvention().getPlugins().get("kotlin");
-                    sourceJar.from(langSet.getKotlin());
+                    Object langSet = new DslObject(main).getConvention().getPlugins().get("kotlin");
+                    try {
+                        sourceJar.from(langSet.getClass().getMethod("getKotlin").invoke(langSet));
+                    } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
             }
         });
