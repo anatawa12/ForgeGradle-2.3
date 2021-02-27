@@ -32,6 +32,7 @@ public class UserConstants
     // @formatter:on
 
     // build configurations. same as in DevConstants
+    public static final String CONFIG_RUNTIME_CLASSPATH = "runtimeClasspath";
     public static final String CONFIG_RUNTIME = "runtimeOnly";
     public static final String CONFIG_COMPILE = "implementation";
 
