@@ -344,7 +344,9 @@ license {
         "**net/minecraftforge/gradle/util/ZipFileTree.java",
         "**net/minecraftforge/gradle/util/json/version/*",
         "**net/minecraftforge/gradle/util/patching/Base64.java",
-        "**net/minecraftforge/gradle/util/patching/ContextualPatch.java"
+        "**net/minecraftforge/gradle/util/patching/ContextualPatch.java",
+        "**net/minecraftforge/gradle/ArchiveTaskHelper.java",
+        "**net/minecraftforge/gradle/GradleVersionUtils.java"
     ))
     ignoreFailures = false
     strictCheck = true
