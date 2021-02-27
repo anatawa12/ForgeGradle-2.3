@@ -23,6 +23,8 @@ import org.gradle.api.tasks.JavaExec;
 import org.gradle.api.tasks.Sync;
 import org.gradle.api.tasks.bundling.Jar;
 
+import static net.minecraftforge.gradle.user.UserConstants.CONFIG_RUNTIME;
+
 public class Launch4jPlugin implements Plugin<Project>
 {
 
@@ -184,7 +186,7 @@ public class Launch4jPlugin implements Plugin<Project>
         Jar jar = (Jar) project.getTasks().getByName(JavaPlugin.JAR_TASK_NAME);
 
         distSpec.from(jar);
-        distSpec.from(project.getConfigurations().getByName("runtime"));
+        distSpec.from(project.getConfigurations().getByName(CONFIG_RUNTIME));
 
         return distSpec;
     }

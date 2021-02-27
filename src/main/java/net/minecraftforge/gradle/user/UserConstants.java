@@ -31,6 +31,10 @@ public class UserConstants
     private UserConstants() {}
     // @formatter:on
 
+    // build configurations. same as in DevConstants
+    public static final String CONFIG_RUNTIME = "runtimeOnly";
+    public static final String CONFIG_COMPILE = "implementation";
+
     public static final String CONFIG_MC              = "forgeGradleMc";
     public static final String CONFIG_START           = "forgeGradleGradleStart";
     public static final String CONFIG_PROVIDED        = "provided";
