@@ -71,6 +71,7 @@ import com.google.common.io.Files;
 import com.google.gson.reflect.TypeToken;
 
 import groovy.lang.Closure;
+import net.minecraftforge.gradle.GradleVersionUtils;
 import net.minecraftforge.gradle.tasks.CrowdinDownload;
 import net.minecraftforge.gradle.tasks.Download;
 import net.minecraftforge.gradle.tasks.DownloadAssetsTask;
@@ -177,7 +178,8 @@ public abstract class BasePlugin<K extends BaseExtension> implements Plugin<Proj
         project.allprojects(new Action<Project>() {
             public void execute(Project proj)
             {
-                addMavenRepo(proj, "forge", URL_FORGE_MAVEN);
+                // the forge's repository doesn't have pom file.
+                addMavenRepo(proj, "forge", URL_FORGE_MAVEN, false);
                 proj.getRepositories().mavenCentral();
                 addMavenRepo(proj, "minecraft", URL_LIBRARY);
             }
@@ -700,14 +702,31 @@ public abstract class BasePlugin<K extends BaseExtension> implements Plugin<Proj
         project.apply(ImmutableMap.of("plugin", plugin));
     }
 
-    public MavenArtifactRepository addMavenRepo(Project proj, final String name, final String url)
+    public MavenArtifactRepository addMavenRepo(Project proj, final String name, final String url) {
+        return addMavenRepo(proj, name, url, true);
+    }
+
+    public MavenArtifactRepository addMavenRepo(final Project proj, final String name, final String url, final boolean usePom)
     {
         return proj.getRepositories().maven(new Action<MavenArtifactRepository>() {
             @Override
-            public void execute(MavenArtifactRepository repo)
+            public void execute(final MavenArtifactRepository repo)
             {
                 repo.setName(name);
                 repo.setUrl(url);
+                if (!usePom) {
+                    GradleVersionUtils.ifAfter("4.5", new Runnable() {
+                        @Override
+                        public void run() {
+                            repo.metadataSources(new Action<MavenArtifactRepository.MetadataSources>() {
+                                @Override
+                                public void execute(MavenArtifactRepository.MetadataSources metadataSources) {
+                                    metadataSources.artifact();
+                                }
+                            });
+                        }
+                    });
+                }
             }
         });
     }
