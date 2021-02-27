@@ -20,6 +20,9 @@
  */
 package net.minecraftforge.gradle.util;
 
+import org.gradle.api.initialization.Settings;
+import org.gradle.api.invocation.Gradle;
+
 import java.lang.reflect.InvocationTargetException;
 
 public class ReflectionUtil
@@ -31,11 +34,17 @@ public class ReflectionUtil
             throw new RuntimeException(e);
         }
     }
-    public static Object callMethodOrNull(Object self, String method) {
+
+    public static <T> T callMethodOrNullWithReturnType(Object self, String method, Class<T> returns) {
         try {
-            return self.getClass().getMethod(method).invoke(self);
-        } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+            return returns.cast(self.getClass().getMethod(method).invoke(self));
+        } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException | ClassCastException e) {
             return null;
         }
+    }
+
+    public static Settings getSettingsOrNull(Gradle gradle) {
+        return ReflectionUtil.callMethodOrNullWithReturnType(gradle,
+                        "getSettings", Settings.class);
     }
 }
