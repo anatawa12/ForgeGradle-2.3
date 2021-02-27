@@ -27,9 +27,9 @@ apply(plugin = "license")
 group = "com.anatawa12.forge"
 
 if (project.hasProperty("push_release")) {
-    version = "2.3-1.0.2"
+    version = "2.3-1.0.3"
 } else {
-    version = "2.3-1.0.3-SNAPSHOT"
+    version = "2.3-1.0.4-SNAPSHOT"
 }
 
 base {
