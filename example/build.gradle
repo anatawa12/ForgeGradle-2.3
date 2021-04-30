@@ -68,10 +68,7 @@ processResources {
                 
         // replace version and mcversion
         expand 'version':project.version, 'mcversion':project.minecraft.version
-    }
-        
-    // copy everything else except the mcmod.info
-    from(sourceSets.main.resources.srcDirs) {
-        exclude 'mcmod.info'
+
+        duplicatesStrategy = DuplicatesStrategy.INCLUDE
     }
 }
