@@ -44,6 +44,7 @@ jobs:
 
       - name: Setup Gradle Wrapper
         run: |
+          cd example
           touch empty
           ./gradlew --build-file=empty wrapper --gradle-version=${{ matrix.gradle }}
           ./gradlew --build-file=empty wrapper
