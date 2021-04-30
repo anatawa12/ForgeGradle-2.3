@@ -38,6 +38,7 @@ import org.gradle.api.file.FileVisitor;
 import org.gradle.api.specs.Spec;
 import org.gradle.api.tasks.Input;
 import org.gradle.api.tasks.InputFile;
+import org.gradle.api.tasks.Internal;
 import org.gradle.api.tasks.OutputFile;
 import org.gradle.api.tasks.TaskAction;
 import org.gradle.api.tasks.util.PatternFilterable;
@@ -184,6 +185,10 @@ public class SignJar extends DefaultTask implements PatternFilterable
         }
     }
 
+    public PatternSet getPatternSet() {
+        return patternSet;
+    }
+
     @Override
     public PatternFilterable exclude(String... arg0)
     {
@@ -209,12 +214,14 @@ public class SignJar extends DefaultTask implements PatternFilterable
         return patternSet.exclude(arg0);
     }
 
+    @Internal
     @Override
     public Set<String> getExcludes()
     {
         return patternSet.getExcludes();
     }
 
+    @Internal
     @Override
     public Set<String> getIncludes()
     {

@@ -27,6 +27,7 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarOutputStream;
 
 import org.gradle.api.DefaultTask;
+import org.gradle.api.tasks.OutputFile;
 import org.gradle.api.tasks.TaskAction;
 
 public class TaskDepDummy extends DefaultTask
@@ -48,6 +49,7 @@ public class TaskDepDummy extends DefaultTask
         }
     }
 
+    @OutputFile
     public File getOutputFile()
     {
         return getProject().file(outputFile);

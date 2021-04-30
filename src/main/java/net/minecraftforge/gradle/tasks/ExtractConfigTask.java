@@ -35,6 +35,7 @@ import org.gradle.api.file.FileTreeElement;
 import org.gradle.api.specs.Spec;
 import org.gradle.api.tasks.Input;
 import org.gradle.api.tasks.InputFiles;
+import org.gradle.api.tasks.Internal;
 import org.gradle.api.tasks.Optional;
 import org.gradle.api.tasks.OutputDirectory;
 import org.gradle.api.tasks.TaskAction;
@@ -54,7 +55,6 @@ public class ExtractConfigTask extends CachedTask implements PatternFilterable
     private boolean    includeEmptyDirs = true;
 
     @Input
-    @Optional
     private boolean    clean            = false;
 
     @Cached
@@ -145,6 +145,14 @@ public class ExtractConfigTask extends CachedTask implements PatternFilterable
         this.clean = clean;
     }
 
+    public boolean getClean() {
+        return clean;
+    }
+
+    public PatternSet getPatternSet() {
+        return patternSet;
+    }
+
     @Override
     public PatternFilterable exclude(String... arg0)
     {
@@ -170,12 +178,14 @@ public class ExtractConfigTask extends CachedTask implements PatternFilterable
         return patternSet.exclude(arg0);
     }
 
+    @Internal
     @Override
     public Set<String> getExcludes()
     {
         return patternSet.getExcludes();
     }
 
+    @Internal
     @Override
     public Set<String> getIncludes()
     {

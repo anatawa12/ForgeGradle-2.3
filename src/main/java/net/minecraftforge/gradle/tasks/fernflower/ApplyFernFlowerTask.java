@@ -29,6 +29,7 @@ import org.codehaus.groovy.runtime.ResourceGroovyMethods;
 import org.gradle.api.Action;
 import org.gradle.api.file.FileCollection;
 import org.gradle.api.tasks.InputFile;
+import org.gradle.api.tasks.InputFiles;
 import org.gradle.api.tasks.OutputFile;
 import org.gradle.api.tasks.TaskAction;
 import org.gradle.process.ExecResult;
@@ -169,6 +170,7 @@ public class ApplyFernFlowerTask extends CachedTask {
         this.outJar = outJar;
     }
 
+    @InputFiles
     public FileCollection getClasspath()
     {
         return classpath;
@@ -179,6 +181,7 @@ public class ApplyFernFlowerTask extends CachedTask {
         this.classpath = classpath;
     }
 
+    @InputFiles
     public FileCollection getForkedClasspath()
     {
         return forkedClasspath;
