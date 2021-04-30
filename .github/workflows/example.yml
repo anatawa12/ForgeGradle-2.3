@@ -25,7 +25,9 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        gradle: ["4.0", "7.0"]
+        gradle: 
+          #- "4.0"
+          - "7.0"
         setting:
           - clean # just build
           - setupDecompWorkspace
