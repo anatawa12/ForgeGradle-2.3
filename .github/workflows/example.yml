@@ -26,7 +26,7 @@ jobs:
     strategy:
       matrix:
         gradle: 
-          #- "4.0"
+          - "4.0"
           - "7.0"
         setting:
           - clean # just build
