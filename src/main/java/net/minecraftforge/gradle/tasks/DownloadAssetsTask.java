@@ -55,7 +55,7 @@ public class DownloadAssetsTask extends DefaultTask
 {
     DelayedFile           assetsDir;
 
-    Object                assetIndex;
+    Closure<File>         assetIndex;
 
     private File          virtualRoot  = null;
     private final File    minecraftDir = new File(Constants.getMinecraftDirectory(), "assets/objects");
@@ -116,7 +116,7 @@ public class DownloadAssetsTask extends DefaultTask
     @InputFile
     public File getAssetsIndex()
     {
-        return getProject().file(assetIndex);
+        return assetIndex.call();
     }
 
     public void setAssetsIndex(Closure<File> index)
