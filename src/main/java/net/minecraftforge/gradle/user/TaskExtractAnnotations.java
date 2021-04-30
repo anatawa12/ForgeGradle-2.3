@@ -33,6 +33,7 @@ import java.util.zip.ZipOutputStream;
 
 import org.gradle.api.DefaultTask;
 import org.gradle.api.tasks.Input;
+import org.gradle.api.tasks.Internal;
 import org.gradle.api.tasks.TaskAction;
 import com.google.common.base.Charsets;
 import com.google.common.collect.Maps;
@@ -143,7 +144,7 @@ public class TaskExtractAnnotations extends DefaultTask
         }
     }
 
-    @Input
+    @Internal
     public File getJar()
     {
         return getProject().file(jar);

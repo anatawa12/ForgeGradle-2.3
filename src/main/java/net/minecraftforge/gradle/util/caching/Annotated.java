@@ -20,6 +20,8 @@
  */
 package net.minecraftforge.gradle.util.caching;
 
+import org.gradle.api.provider.Provider;
+
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -54,6 +56,14 @@ class Annotated
     }
 
     public Object getValue(Object instance) throws NoSuchMethodException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException, InvocationTargetException
+    {
+        Object value = getValue0(instance);
+        if (value instanceof Provider<?>)
+            value = ((Provider<?>) value).get();
+        return value;
+    }
+
+    private Object getValue0(Object instance) throws NoSuchMethodException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException, InvocationTargetException
     {
         Method method;
 

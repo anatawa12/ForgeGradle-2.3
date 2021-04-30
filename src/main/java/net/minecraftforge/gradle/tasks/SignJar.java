@@ -28,16 +28,20 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.jar.JarOutputStream;
+import java.util.stream.StreamSupport;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 import org.gradle.api.DefaultTask;
+import org.gradle.api.file.FileCollection;
 import org.gradle.api.file.FileTreeElement;
 import org.gradle.api.file.FileVisitDetails;
 import org.gradle.api.file.FileVisitor;
+import org.gradle.api.provider.Provider;
 import org.gradle.api.specs.Spec;
 import org.gradle.api.tasks.Input;
 import org.gradle.api.tasks.InputFile;
+import org.gradle.api.tasks.InputFiles;
 import org.gradle.api.tasks.Internal;
 import org.gradle.api.tasks.OutputFile;
 import org.gradle.api.tasks.TaskAction;
@@ -54,7 +58,7 @@ import groovy.util.MapEntry;
 public class SignJar extends DefaultTask implements PatternFilterable
 {
     //@formatter:off
-    @Input      private PatternSet patternSet = new PatternSet();
+                private PatternSet patternSet = new PatternSet();
     @Input      private Object     alias;
     @Input      private Object     storePass;
     @Input      private Object     keyPass;
@@ -185,8 +189,9 @@ public class SignJar extends DefaultTask implements PatternFilterable
         }
     }
 
-    public PatternSet getPatternSet() {
-        return patternSet;
+    @InputFiles
+    public Provider<FileCollection> getInputFiles() {
+        return getProject().provider(() -> getProject().zipTree(inputFile).matching(patternSet));
     }
 
     @Override

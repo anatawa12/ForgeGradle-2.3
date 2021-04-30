@@ -530,7 +530,7 @@ public abstract class UserBasePlugin<T extends UserBaseExtension> extends BasePl
         project.getConfigurations().getByName(JavaPlugin.IMPLEMENTATION_CONFIGURATION_NAME).extendsFrom(project.getConfigurations().getByName(CONFIG_DC_RESOLVED));
         project.getConfigurations().getByName(CONFIG_PROVIDED).extendsFrom(project.getConfigurations().getByName(CONFIG_DP_RESOLVED));
         project.getConfigurations().getByName(api.getImplementationConfigurationName()).extendsFrom(project.getConfigurations().getByName(CONFIG_COMPILE));
-        project.getConfigurations().getByName(JavaPlugin.TEST_IMPLEMENTATION_CONFIGURATION_NAME).extendsFrom(project.getConfigurations().getByName("apiCompile"));
+        project.getConfigurations().getByName(JavaPlugin.TEST_IMPLEMENTATION_CONFIGURATION_NAME).extendsFrom(project.getConfigurations().getByName("apiImplementation"));
 
         Javadoc javadoc = (Javadoc) project.getTasks().getByName(JavaPlugin.JAVADOC_TASK_NAME);
         javadoc.setClasspath(main.getOutput().plus(main.getCompileClasspath()));
@@ -759,7 +759,7 @@ public abstract class UserBasePlugin<T extends UserBaseExtension> extends BasePl
     protected void doDepAtExtraction()
     {
         TaskExtractDepAts extract = makeTask(TASK_EXTRACT_DEP_ATS, TaskExtractDepAts.class);
-        extract.addCollection(CONFIG_COMPILE);
+        extract.addCollection("compileClasspath");
         extract.addCollection(CONFIG_PROVIDED);
         extract.addCollection(CONFIG_DEOBF_COMPILE);
         extract.addCollection(CONFIG_DEOBF_PROVIDED);
