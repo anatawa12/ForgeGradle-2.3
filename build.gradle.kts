@@ -42,7 +42,7 @@ java {
 
 repositories {
     mavenLocal()
-    maven("https://files.minecraftforge.net/maven") {
+    maven("https://maven.minecraftforge.net/") {
         name = "forge"
     }
     maven("https://repo.eclipse.org/content/groups/eclipse/") {

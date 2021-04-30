@@ -26,7 +26,7 @@ buildscript {
         mavenCentral()
         maven {
             name = "forge"
-            url = "https://files.minecraftforge.net/maven"
+            url = "https://maven.minecraftforge.net"
         }
     }
     dependencies {
