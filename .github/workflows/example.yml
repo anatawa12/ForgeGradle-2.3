@@ -55,9 +55,9 @@ jobs:
       - name: Run Setup Task
         run: |
           cd example
-          ./gradlew --init-script=../scripts/useLocal.init.gradle ${{ matrix.setting }}
+          ./gradlew --stacktrace --init-script=../scripts/useLocal.init.gradle ${{ matrix.setting }}
 
       - name: Run Build Task
         run: |
           cd example
-          ./gradlew --init-script=../scripts/useLocal.init.gradle build
+          ./gradlew --stacktrace --init-script=../scripts/useLocal.init.gradle build
