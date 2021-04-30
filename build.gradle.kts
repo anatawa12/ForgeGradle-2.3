@@ -20,6 +20,7 @@ plugins {
     eclipse
     maven
     signing
+    `java-gradle-plugin`
 }
 
 apply(plugin = "license")
