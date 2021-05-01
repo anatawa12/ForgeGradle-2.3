@@ -464,3 +464,13 @@ fun getGitHash(): String {
     process.waitFor()
     return "-" + (if (process.exitValue() != 0) "unknown" else process.inputStream.reader().use { it.readText() }.trim())
 }
+
+tasks.withType<PublishToMavenRepository>().configureEach {
+    onlyIf {
+        if (repository.name == "mavenCentral") {
+            publication.name != "pluginMaven"
+        } else {
+            true
+        }
+    }
+}
