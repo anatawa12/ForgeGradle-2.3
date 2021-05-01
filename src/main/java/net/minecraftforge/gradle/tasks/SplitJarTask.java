@@ -32,12 +32,16 @@ import java.util.jar.JarOutputStream;
 import net.minecraftforge.gradle.util.caching.Cached;
 import net.minecraftforge.gradle.util.caching.CachedTask;
 
+import org.gradle.api.file.FileCollection;
 import org.gradle.api.file.FileTreeElement;
 import org.gradle.api.file.FileVisitDetails;
 import org.gradle.api.file.FileVisitor;
+import org.gradle.api.provider.Provider;
 import org.gradle.api.specs.Spec;
 import org.gradle.api.tasks.Input;
 import org.gradle.api.tasks.InputFile;
+import org.gradle.api.tasks.InputFiles;
+import org.gradle.api.tasks.Internal;
 import org.gradle.api.tasks.OutputFile;
 import org.gradle.api.tasks.TaskAction;
 import org.gradle.api.tasks.util.PatternFilterable;
@@ -48,7 +52,6 @@ public class SplitJarTask extends CachedTask implements PatternFilterable
     @InputFile
     private Object     inJar;
 
-    @Input
     private PatternSet pattern = new PatternSet();
 
     @Cached
@@ -117,6 +120,11 @@ public class SplitJarTask extends CachedTask implements PatternFilterable
         }
     }
 
+    @InputFiles
+    public Provider<FileCollection> getInputFiles() {
+        return getProject().provider(() -> getProject().zipTree(getInJar()).matching(pattern));
+    }
+
     public File getInJar()
     {
         return getProject().file(inJar);
@@ -172,12 +180,14 @@ public class SplitJarTask extends CachedTask implements PatternFilterable
         return pattern.exclude(arg0);
     }
 
+    @Internal
     @Override
     public Set<String> getExcludes()
     {
         return pattern.getExcludes();
     }
 
+    @Internal
     @Override
     public Set<String> getIncludes()
     {

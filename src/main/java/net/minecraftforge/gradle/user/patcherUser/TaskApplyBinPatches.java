@@ -62,8 +62,8 @@ public class TaskApplyBinPatches extends CachedTask
 {
     //@formatter:off
     @InputFile  Object inJar;
-    @InputFile  Object classesJar;
-    @InputFile  Object resourcesJar;
+                Object classesJar;
+                Object resourcesJar;
     @InputFile  Object patches;
     //@formatter:on
 
@@ -284,6 +284,7 @@ public class TaskApplyBinPatches extends CachedTask
         this.patches = patchesJar;
     }
 
+    @InputFile
     public File getClassJar()
     {
         return getProject().file(classesJar);
@@ -294,6 +295,7 @@ public class TaskApplyBinPatches extends CachedTask
         this.classesJar = extraJar;
     }
 
+    @InputFile
     public File getResourceJar()
     {
         return getProject().file(resourcesJar);

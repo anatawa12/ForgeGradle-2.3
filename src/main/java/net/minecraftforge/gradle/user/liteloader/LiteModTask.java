@@ -29,6 +29,8 @@ import org.gradle.api.DefaultTask;
 import org.gradle.api.Project;
 import org.gradle.api.Task;
 import org.gradle.api.specs.Spec;
+import org.gradle.api.tasks.Input;
+import org.gradle.api.tasks.Internal;
 import org.gradle.api.tasks.OutputFile;
 import org.gradle.api.tasks.TaskAction;
 import org.gradle.util.ConfigureUtil;
@@ -69,6 +71,7 @@ public class LiteModTask extends DefaultTask
         this.getJson().toJsonFile(outputFile);
     }
     
+    @Internal
     public Object getFileName()
     {
         return this.fileName;
@@ -88,6 +91,7 @@ public class LiteModTask extends DefaultTask
         return this.output;
     }
     
+    @Input
     public LiteModJson getJson() throws IOException
     {
         if (this.json == null)
@@ -106,6 +110,7 @@ public class LiteModTask extends DefaultTask
         ConfigureUtil.configure(configureClosure, this.getJson());
     }
 
+    @Input
     public String getBuildNumber() throws IOException
     {
         if (this.buildNumber == null)

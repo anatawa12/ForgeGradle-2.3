@@ -35,6 +35,7 @@ import org.gradle.api.DefaultTask;
 import org.gradle.api.artifacts.Configuration;
 import org.gradle.api.file.FileCollection;
 import org.gradle.api.tasks.Input;
+import org.gradle.api.tasks.InputFiles;
 import org.gradle.api.tasks.OutputDirectory;
 import org.gradle.api.tasks.TaskAction;
 
@@ -111,6 +112,11 @@ public class TaskExtractDepAts extends DefaultTask
         }
     }
 
+    public List<String> getConfigurations() {
+        return configurations;
+    }
+
+    @InputFiles
     public FileCollection getCollections()
     {
     	List<Configuration> configs = Lists.newArrayListWithCapacity(configurations.size());

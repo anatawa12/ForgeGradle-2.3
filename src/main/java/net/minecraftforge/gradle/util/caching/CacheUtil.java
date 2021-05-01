@@ -32,6 +32,7 @@ import java.util.List;
 import net.minecraftforge.gradle.common.Constants;
 
 import org.gradle.api.file.FileCollection;
+import org.gradle.api.provider.Provider;
 import org.gradle.api.tasks.InputDirectory;
 import org.gradle.api.tasks.InputFile;
 import org.gradle.api.tasks.InputFiles;

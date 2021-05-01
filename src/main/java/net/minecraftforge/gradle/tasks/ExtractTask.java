@@ -26,6 +26,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.LinkedHashSet;
 import java.util.Set;
+import java.util.stream.StreamSupport;
 
 import net.minecraftforge.gradle.util.ExtractionVisitor;
 import net.minecraftforge.gradle.util.caching.Cached;
@@ -33,9 +34,11 @@ import net.minecraftforge.gradle.util.caching.CachedTask;
 
 import org.gradle.api.file.FileCollection;
 import org.gradle.api.file.FileTreeElement;
+import org.gradle.api.provider.Provider;
 import org.gradle.api.specs.Spec;
 import org.gradle.api.tasks.Input;
 import org.gradle.api.tasks.InputFiles;
+import org.gradle.api.tasks.Internal;
 import org.gradle.api.tasks.Optional;
 import org.gradle.api.tasks.OutputDirectory;
 import org.gradle.api.tasks.TaskAction;
@@ -48,14 +51,12 @@ public class ExtractTask extends CachedTask implements PatternFilterable
     @InputFiles
     private LinkedHashSet<Object> sourcePaths      = new LinkedHashSet<Object>();
 
-    @Input
     private PatternSet            patternSet       = new PatternSet();
 
     @Input
     private boolean               includeEmptyDirs = true;
 
     @Input
-    @Optional
     private boolean               clean            = false;
 
     @Cached
@@ -114,6 +115,13 @@ public class ExtractTask extends CachedTask implements PatternFilterable
         return this;
     }
 
+    @InputFiles
+    public Provider<FileCollection> getInputFiles() {
+        return getProject().provider(() -> StreamSupport.stream(getSourcePaths().spliterator(), false)
+                .map(it -> (FileCollection)getProject().zipTree(it).matching(patternSet))
+                .reduce(getProject().files(), FileCollection::plus));
+    }
+
     public File getDestinationDir()
     {
         return getProject().file(destinationDir);
@@ -150,6 +158,10 @@ public class ExtractTask extends CachedTask implements PatternFilterable
         this.clean = clean;
     }
 
+    public boolean getClean() {
+        return clean;
+    }
+
     @Override
     public PatternFilterable exclude(String... arg0)
     {
@@ -175,12 +187,14 @@ public class ExtractTask extends CachedTask implements PatternFilterable
         return patternSet.exclude(arg0);
     }
 
+    @Internal
     @Override
     public Set<String> getExcludes()
     {
         return patternSet.getExcludes();
     }
 
+    @Internal
     @Override
     public Set<String> getIncludes()
     {

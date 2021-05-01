@@ -31,11 +31,12 @@ import org.gradle.api.Project;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class LiteModJson
+public class LiteModJson implements Serializable
 {
     public static class Description extends HashMap<String, Object>
     {
@@ -88,6 +89,8 @@ public class LiteModJson
             }
         }
     }
+
+    private static final long serialVersionUID = 1;
 
     public String name, displayName, version, author;
     public String mcversion, revision;

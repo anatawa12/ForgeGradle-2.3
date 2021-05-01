@@ -250,7 +250,7 @@ public abstract class BasePlugin<K extends BaseExtension> implements Plugin<Proj
 //        ApplyFernFlowerTask ffTask = ((ApplyFernFlowerTask) project.getTasks().getByName("decompileJar"));
 //        ffTask.setClasspath(javaConv.getSourceSets().getByName("main").getCompileClasspath());
 
-        // https://files.minecraftforge.net/maven/de/oceanlabs/mcp/mcp/1.7.10/mcp-1.7.10-srg.zip
+        // https://maven.minecraftforge.net/de/oceanlabs/mcp/mcp/1.7.10/mcp-1.7.10-srg.zip
         project.getDependencies().add(CONFIG_MAPPINGS, ImmutableMap.of(
                 "group", "de.oceanlabs.mcp",
                 "name", delayedString("mcp_" + REPLACE_MCP_CHANNEL).call(),
@@ -519,7 +519,7 @@ public abstract class BasePlugin<K extends BaseExtension> implements Plugin<Proj
                     return mcVersionJson.assetIndex.url;
                 }
             });
-            getAssetsIndex.setFile(delayedFile(JSON_ASSET_INDEX));
+            getAssetsIndex.setFile(delayedFileOpt(JSON_ASSET_INDEX));
             getAssetsIndex.setDieWithError(false);
             getAssetsIndex.dependsOn(getVersionJson);
         }
@@ -527,7 +527,7 @@ public abstract class BasePlugin<K extends BaseExtension> implements Plugin<Proj
         DownloadAssetsTask getAssets = makeTask(TASK_DL_ASSETS, DownloadAssetsTask.class);
         {
             getAssets.setAssetsDir(delayedFile(DIR_ASSETS));
-            getAssets.setAssetsIndex(delayedFile(JSON_ASSET_INDEX));
+            getAssets.setAssetsIndex(delayedFileOpt(JSON_ASSET_INDEX));
             getAssets.dependsOn(getAssetsIndex);
         }
 
@@ -951,6 +951,17 @@ public abstract class BasePlugin<K extends BaseExtension> implements Plugin<Proj
                             return new DelayedFile(CacheLoader.class, project, replacerCache.getUnchecked(key));
                         }
                     });
+    private LoadingCache<String, DelayedFile> optFileCache = CacheBuilder.newBuilder()
+            .weakValues()
+            .build(
+                    new CacheLoader<String, DelayedFile>() {
+                        public DelayedFile load(String key)
+                        {
+                            DelayedFile file = new DelayedFile(CacheLoader.class, project, replacerCache.getUnchecked(key));
+                            file.opt = true;
+                            return file;
+                        }
+                    });
 
     public DelayedString delayedString(String path)
     {
@@ -960,6 +971,11 @@ public abstract class BasePlugin<K extends BaseExtension> implements Plugin<Proj
     public DelayedFile delayedFile(String path)
     {
         return fileCache.getUnchecked(path);
+    }
+
+    public DelayedFile delayedFileOpt(String path)
+    {
+        return optFileCache.getUnchecked(path);
     }
 
     public DelayedFileTree delayedTree(String path)

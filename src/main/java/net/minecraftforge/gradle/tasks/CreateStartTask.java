@@ -58,13 +58,10 @@ import com.google.common.io.Resources;
 
 public class CreateStartTask extends CachedTask
 {
-    @Input
     HashMap<String, String>     resources    = Maps.newHashMap();
 
-    @Input
     HashMap<String, Object>     replacements = Maps.newHashMap();
 
-    @Input
     List<String>                extraLines   = Lists.newArrayList();
 
     @Cached
@@ -264,5 +261,20 @@ public class CreateStartTask extends CachedTask
     public void setStartOut(Object outputFile)
     {
         this.startOut = outputFile;
+    }
+
+    @Input
+    public List<String> getExtraLines() {
+        return extraLines;
+    }
+
+    @Input
+    public HashMap<String, Object> getReplacements() {
+        return replacements;
+    }
+
+    @Input
+    public HashMap<String, String> getResources() {
+        return resources;
     }
 }

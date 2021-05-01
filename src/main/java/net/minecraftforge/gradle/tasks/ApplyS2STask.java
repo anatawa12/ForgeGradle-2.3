@@ -52,11 +52,8 @@ import com.google.common.io.Files;
 
 public class ApplyS2STask extends DefaultTask
 {
-    @InputFiles
     private final List<Object> srg = new LinkedList<Object>();
 
-    @Optional
-    @InputFiles
     private final List<Object> exc = new LinkedList<Object>();
 
     @InputFile
@@ -341,6 +338,7 @@ public class ApplyS2STask extends DefaultTask
             return getProject().files(outFile);
     }
 
+    @OutputFile
     public File getOut()
     {
         return getProject().file(out);
@@ -351,6 +349,7 @@ public class ApplyS2STask extends DefaultTask
         this.out = out;
     }
 
+    @InputFiles
     public FileCollection getSrgs()
     {
         return getProject().files(srg);
@@ -371,6 +370,7 @@ public class ApplyS2STask extends DefaultTask
         this.srg.add(srg);
     }
 
+    @InputFiles
     public FileCollection getExcs()
     {
         return getProject().files(exc);
