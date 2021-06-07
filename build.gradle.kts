@@ -84,7 +84,7 @@ dependencies {
 
     // moved to the beginning to be the overrider
     //compile("org.ow2.asm:asm-debug-all:6.0")
-    compile("com.google.guava:guava:18.0")
+    compile("com.google.guava:guava:23.0")
 
     compile("net.sf.opencsv:opencsv:2.3") // reading CSVs.. also used by SpecialSource
     compile("com.cloudbees:diff4j:1.1") // for difing and patching
