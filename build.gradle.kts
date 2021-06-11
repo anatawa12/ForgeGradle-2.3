@@ -97,7 +97,7 @@ dependencies {
     compile("com.github.tony19:named-regexp:0.2.3") // 1.7 Named regexp features
     compile("net.minecraftforge:forgeflower:1.0.342-SNAPSHOT") // Fernflower Forge edition
 
-    shade("net.md-5:SpecialSource:1.8.2") // deobf and reobf
+    shade("net.md-5:SpecialSource:1.10.0") // deobf and reobf
 
     // because curse
     compile("org.apache.httpcomponents:httpclient:4.3.3")
