@@ -71,6 +71,17 @@ configurations {
             force("org.ow2.asm:asm-commons:6.0")
             force("org.ow2.asm:asm-tree:6.0")
             force("org.ow2.asm:asm:6.0")
+            // pin eclipse for java 8
+            force("org.eclipse.platform:org.eclipse.equinox.common:3.14.100")
+            force("org.eclipse.platform:org.eclipse.core.resources:3.14.0")
+            force("org.eclipse.platform:org.eclipse.text:3.11.0")
+            force("org.eclipse.platform:org.eclipse.core.expressions:3.7.100")
+            force("org.eclipse.platform:org.eclipse.core.runtime:3.22.0")
+            force("org.eclipse.platform:org.eclipse.core.jobs:3.11.0")
+            force("org.eclipse.platform:org.eclipse.core.contenttype:3.7.1000")
+            force("org.eclipse.platform:org.eclipse.equinox.app:1.5.100")
+            force("org.eclipse.platform:org.eclipse.equinox.registry:3.10.200")
+            force("org.eclipse.platform:org.eclipse.core.commands:3.9.800")
         }
     }
 }
@@ -467,6 +478,31 @@ tasks.withType<PublishToMavenRepository>().configureEach {
             publication.name != "pluginMaven"
         } else {
             true
+        }
+    }
+}
+
+if (System.getenv("CHECK_JDK_COMPATIBILITY")?.toBoolean() == true) {
+    shade.asSequence().forEach {
+        val reading = ByteArray(8)
+        val zis = ZipInputStream(it.inputStream())
+        while (true) {
+            val entry = zis.nextEntry ?: break
+            if (!entry.name.endsWith(".class")) continue
+            if (entry.name == "module-info.class") continue
+            if (entry.name.startsWith("META-INF/")) continue
+            if (zis.read(reading) != reading.size) continue
+            if (reading[0] == 0xCA.toByte() &&
+                reading[1] == 0xFE.toByte() &&
+                reading[2] == 0xBA.toByte() &&
+                reading[3] == 0xBE.toByte() &&
+                reading[4] == 0x00.toByte() &&
+                reading[5] == 0x00.toByte()) {
+                @Suppress("OPT_IN_USAGE")
+                val major = reading[6].toUByte().toInt().shl(8) or reading[7].toUByte().toInt()
+                if (major > 52)
+                    throw IllegalStateException("${entry.name} of $it is not compatible with java 8")
+            }
         }
     }
 }
