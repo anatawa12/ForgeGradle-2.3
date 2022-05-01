@@ -94,7 +94,7 @@ dependencies {
     compile("com.google.guava:guava:31.1-jre")
 
     compile("net.sf.opencsv:opencsv:2.3") // reading CSVs.. also used by SpecialSource
-    compile("com.cloudbees:diff4j:1.1") // for difing and patching
+    compile("com.cloudbees:diff4j:1.3") // for difing and patching
     compile("com.github.abrarsyed.jastyle:jAstyle:1.3") // formatting
     compile("net.sf.trove4j:trove4j:2.1.0") // because its awesome.
 
