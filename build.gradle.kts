@@ -71,9 +71,8 @@ configurations {
             force("org.ow2.asm:asm-commons:6.0")
             force("org.ow2.asm:asm-tree:6.0")
             force("org.ow2.asm:asm:6.0")
-            // pin to 3.15.100 because 3.16.x requires java 11
-            @Suppress("GradlePackageUpdate")
             force("org.eclipse.platform:org.eclipse.equinox.common:3.14.100")
+            force("org.eclipse.platform:org.eclipse.core.resources:3.14.100")
         }
     }
 }
