@@ -75,7 +75,7 @@ configurations {
             force("org.eclipse.platform:org.eclipse.equinox.common:3.14.100")
             force("org.eclipse.platform:org.eclipse.core.resources:3.14.0")
             force("org.eclipse.platform:org.eclipse.text:3.11.0")
-            force("org.eclipse.platform:org.eclipse.core.expressions:3.7.100")
+            force("org.eclipse.platform:org.eclipse.core.expressions:3.8.100")
             force("org.eclipse.platform:org.eclipse.core.runtime:3.22.0")
             force("org.eclipse.platform:org.eclipse.core.jobs:3.11.0")
             force("org.eclipse.platform:org.eclipse.core.contenttype:3.7.1000")
@@ -94,7 +94,7 @@ dependencies {
     compile("com.google.guava:guava:31.1-jre")
 
     compile("net.sf.opencsv:opencsv:2.3") // reading CSVs.. also used by SpecialSource
-    compile("com.cloudbees:diff4j:1.1") // for difing and patching
+    compile("com.cloudbees:diff4j:1.3") // for difing and patching
     compile("com.github.abrarsyed.jastyle:jAstyle:1.3") // formatting
     compile("net.sf.trove4j:trove4j:2.1.0") // because its awesome.
 
