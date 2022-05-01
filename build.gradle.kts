@@ -8,7 +8,7 @@ buildscript {
         classpath("com.gradle.publish:plugin-publish-plugin:0.9.1")
         classpath("nl.javadude.gradle.plugins:license-gradle-plugin:0.11.0")
         classpath("org.ow2.asm:asm:6.2.1")
-        classpath("org.ow2.asm:asm-tree:6.2.1")
+        classpath("org.ow2.asm:asm-tree:9.3")
     }
 }
 
@@ -69,7 +69,7 @@ configurations {
     all {
         resolutionStrategy {
             force("org.ow2.asm:asm-commons:6.0")
-            force("org.ow2.asm:asm-tree:6.0")
+            force("org.ow2.asm:asm-tree:9.3")
             force("org.ow2.asm:asm:6.0")
             // pin eclipse for java 8
             force("org.eclipse.platform:org.eclipse.equinox.common:3.14.100")
