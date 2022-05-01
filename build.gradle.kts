@@ -71,8 +71,17 @@ configurations {
             force("org.ow2.asm:asm-commons:6.0")
             force("org.ow2.asm:asm-tree:6.0")
             force("org.ow2.asm:asm:6.0")
+            // pin eclipse for java 8
             force("org.eclipse.platform:org.eclipse.equinox.common:3.14.100")
             force("org.eclipse.platform:org.eclipse.core.resources:3.14.0")
+            force("org.eclipse.platform:org.eclipse.text:3.11.0")
+            force("org.eclipse.platform:org.eclipse.core.expressions:3.7.100")
+            force("org.eclipse.platform:org.eclipse.core.runtime:3.22.0")
+            force("org.eclipse.platform:org.eclipse.core.jobs:3.11.0")
+            force("org.eclipse.platform:org.eclipse.core.contenttype:3.7.1000")
+            force("org.eclipse.platform:org.eclipse.equinox.app:1.5.100")
+            force("org.eclipse.platform:org.eclipse.equinox.registry:3.10.200")
+            force("org.eclipse.platform:org.eclipse.core.commands:3.9.800")
         }
     }
 }
