@@ -74,7 +74,7 @@ configurations {
             // pin eclipse for java 8
             force("org.eclipse.platform:org.eclipse.equinox.common:3.14.100")
             force("org.eclipse.platform:org.eclipse.core.resources:3.14.0")
-            force("org.eclipse.platform:org.eclipse.text:3.11.0")
+            force("org.eclipse.platform:org.eclipse.text:3.12.0")
             force("org.eclipse.platform:org.eclipse.core.expressions:3.7.100")
             force("org.eclipse.platform:org.eclipse.core.runtime:3.22.0")
             force("org.eclipse.platform:org.eclipse.core.jobs:3.11.0")
@@ -108,7 +108,7 @@ dependencies {
 
     // because curse
     compile("org.apache.httpcomponents:httpclient:4.3.3")
-    compile("org.apache.httpcomponents:httpmime:4.3.3")
+    compile("org.apache.httpcomponents:httpmime:4.5.13")
 
     // mcp stuff
     shade("de.oceanlabs.mcp:RetroGuard:3.6.6")
