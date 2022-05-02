@@ -81,7 +81,7 @@ configurations {
             force("org.eclipse.platform:org.eclipse.core.contenttype:3.7.1000")
             force("org.eclipse.platform:org.eclipse.equinox.app:1.5.100")
             force("org.eclipse.platform:org.eclipse.equinox.registry:3.10.200")
-            force("org.eclipse.platform:org.eclipse.core.commands:3.9.800")
+            force("org.eclipse.platform:org.eclipse.core.commands:3.10.100")
         }
     }
 }
