@@ -115,7 +115,7 @@ dependencies {
     shade("de.oceanlabs.mcp:mcinjector:3.4-SNAPSHOT") {
         exclude(group = "org.ow2.asm")
     }
-    shade("net.minecraftforge:Srg2Source:5.0.+") {
+    shade("net.minecraftforge:Srg2Source:8.0.+") {
         exclude(group = "org.ow2.asm")
         exclude(group = "org.eclipse.equinox", module = "org.eclipse.equinox.common")
         exclude(group = "cpw.mods",            module = "modlauncher")
