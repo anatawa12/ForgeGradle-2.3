@@ -7,7 +7,7 @@ buildscript {
     dependencies {
         classpath("com.gradle.publish:plugin-publish-plugin:0.9.1")
         classpath("nl.javadude.gradle.plugins:license-gradle-plugin:0.11.0")
-        classpath("org.ow2.asm:asm:6.2.1")
+        classpath("org.ow2.asm:asm:9.3")
         classpath("org.ow2.asm:asm-tree:6.2.1")
     }
 }
@@ -68,7 +68,7 @@ compileOnly.extendsFrom(shade)
 configurations {
     all {
         resolutionStrategy {
-            force("org.ow2.asm:asm-commons:6.0")
+            force("org.ow2.asm:asm-commons:9.3")
             force("org.ow2.asm:asm-tree:6.0")
             force("org.ow2.asm:asm:6.0")
             // pin eclipse for java 8
@@ -96,7 +96,7 @@ dependencies {
     compile("net.sf.opencsv:opencsv:2.3") // reading CSVs.. also used by SpecialSource
     compile("com.cloudbees:diff4j:1.3") // for difing and patching
     compile("com.github.abrarsyed.jastyle:jAstyle:1.3") // formatting
-    compile("net.sf.trove4j:trove4j:2.1.0") // because its awesome.
+    compile("net.sf.trove4j:trove4j:3.0.3") // because its awesome.
 
     compile("com.github.jponge:lzma-java:1.3") // replaces the LZMA binary
     compile("com.nothome:javaxdelta:2.0.1") // GDIFF implementation for BinPatches
