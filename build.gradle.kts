@@ -17,8 +17,6 @@ plugins {
     java
     idea
     eclipse
-    maven
-    signing
     `java-gradle-plugin`
 }
 
@@ -413,10 +411,6 @@ publishing {
             }
         }
     }
-}
-
-signing {
-    sign(publishing.publications["bintray"])
 }
 
 // write out version so its convenient for doc deployment
