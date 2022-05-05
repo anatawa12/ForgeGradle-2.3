@@ -27,7 +27,7 @@ apply(plugin = "license")
 
 group = "com.anatawa12.forge"
 
-version = property("version")!!
+version = "2.3-${property("version")!!}"
 
 base {
     archivesBaseName = "ForgeGradle"
