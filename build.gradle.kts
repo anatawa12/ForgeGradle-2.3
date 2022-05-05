@@ -128,7 +128,7 @@ dependencies {
     }
 
     //compileOnly("org.jetbrains.kotlin:kotlin-gradle-plugin:1.1.3-2")
-    testCompile("junit:junit:4.12")
+    testCompile("junit:junit:4.13.2")
 }
 
 val wrapper by tasks.getting(Wrapper::class) {
