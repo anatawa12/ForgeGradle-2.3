@@ -93,7 +93,7 @@ dependencies {
     //compile("org.ow2.asm:asm-debug-all:6.0")
     compile("com.google.guava:guava:31.1-jre")
 
-    compile("net.sf.opencsv:opencsv:2.3") // reading CSVs.. also used by SpecialSource
+    compile("net.sf.opencsv:opencsv:2.4") // reading CSVs.. also used by SpecialSource
     compile("com.cloudbees:diff4j:1.3") // for difing and patching
     compile("com.github.abrarsyed.jastyle:jAstyle:1.3") // formatting
     compile("net.sf.trove4j:trove4j:3.0.3") // because its awesome.
