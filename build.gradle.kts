@@ -96,7 +96,7 @@ dependencies {
     compile("net.sf.opencsv:opencsv:2.3") // reading CSVs.. also used by SpecialSource
     compile("com.cloudbees:diff4j:1.3") // for difing and patching
     compile("com.github.abrarsyed.jastyle:jAstyle:1.3") // formatting
-    compile("net.sf.trove4j:trove4j:2.1.0") // because its awesome.
+    compile("net.sf.trove4j:trove4j:3.0.3") // because its awesome.
 
     compile("com.github.jponge:lzma-java:1.3") // replaces the LZMA binary
     compile("com.nothome:javaxdelta:2.0.1") // GDIFF implementation for BinPatches
@@ -107,7 +107,7 @@ dependencies {
     shade("net.md-5:SpecialSource:1.11.0") // deobf and reobf
 
     // because curse
-    compile("org.apache.httpcomponents:httpclient:4.3.3")
+    compile("org.apache.httpcomponents:httpclient:4.5.13")
     compile("org.apache.httpcomponents:httpmime:4.5.13")
 
     // mcp stuff
