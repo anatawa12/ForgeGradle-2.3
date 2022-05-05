@@ -13,7 +13,6 @@ buildscript {
 }
 
 plugins {
-    id("com.jfrog.bintray") version "1.8.4"
     `maven-publish`
     java
     idea
@@ -414,53 +413,11 @@ publishing {
             }
         }
     }
-    repositories {
-        maven {
-            // change URLs to point to your repos, e.g. http://my.org/repo
-            val releasesRepoUrl = "$buildDir/repos/releases"
-            val snapshotsRepoUrl = "$buildDir/repos/snapshots"
-            url = uri(if (version.toString().endsWith("SNAPSHOT")) snapshotsRepoUrl else releasesRepoUrl)
-        }
-
-        maven {
-            name = "mavenCentral"
-            url = if (version.toString().endsWith("SNAPSHOT")) uri("https://oss.sonatype.org/content/repositories/snapshots")
-            else uri("https://oss.sonatype.org/service/local/staging/deploy/maven2/")
-
-            credentials {
-                username = project.findProperty("com.anatawa12.sonatype.username")?.toString() ?: ""
-                password = project.findProperty("com.anatawa12.sonatype.passeord")?.toString() ?: ""
-            }
-        }
-    }
 }
 
 signing {
     sign(publishing.publications["bintray"])
 }
-
-if (project.hasProperty("push_release")) {
-    bintray {
-        user = project.findProperty("BINTRAY_USER")?.toString() ?: ""
-        key = project.findProperty("BINTRAY_KEY")?.toString() ?: ""
-        setPublications("bintray")
-
-        pkg(closureOf<com.jfrog.bintray.gradle.BintrayExtension.PackageConfig> {
-            repo = "maven"
-            name = "$group.${project.name}"
-            setLicenses("LGPL-2.1")
-            websiteUrl = "https://github.com/anatawa12/ForgeGradle-2.3/"
-            issueTrackerUrl = "https://github.com/anatawa12/ForgeGradle-2.3/issues"
-            vcsUrl = "https://github.com/anatawa12/ForgeGradle-2.3.git"
-            publicDownloadNumbers = true
-            version.name = "${project.version}"
-        })
-    }
-}
-
-val bintrayUpload by tasks.getting
-val assemble by tasks.getting
-bintrayUpload.dependsOn(assemble)
 
 // write out version so its convenient for doc deployment
 file("build").mkdirs()
@@ -472,14 +429,8 @@ fun getGitHash(): String {
     return "-" + (if (process.exitValue() != 0) "unknown" else process.inputStream.reader().use { it.readText() }.trim())
 }
 
-tasks.withType<PublishToMavenRepository>().configureEach {
-    onlyIf {
-        if (repository.name == "mavenCentral") {
-            publication.name != "pluginMaven"
-        } else {
-            true
-        }
-    }
+gradlePlugin {
+    isAutomatedPublishing = false
 }
 
 if (System.getenv("CHECK_JDK_COMPATIBILITY")?.toBoolean() == true) {
