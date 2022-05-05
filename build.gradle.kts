@@ -77,7 +77,7 @@ configurations {
             force("org.eclipse.platform:org.eclipse.text:3.11.0")
             force("org.eclipse.platform:org.eclipse.core.expressions:3.7.100")
             force("org.eclipse.platform:org.eclipse.core.runtime:3.22.0")
-            force("org.eclipse.platform:org.eclipse.core.jobs:3.11.0")
+            force("org.eclipse.platform:org.eclipse.core.jobs:3.12.100")
             force("org.eclipse.platform:org.eclipse.core.contenttype:3.7.1000")
             force("org.eclipse.platform:org.eclipse.equinox.app:1.5.100")
             force("org.eclipse.platform:org.eclipse.equinox.registry:3.10.200")
