@@ -105,7 +105,7 @@ dependencies {
 
     // because curse
     compile("org.apache.httpcomponents:httpclient:4.5.13")
-    compile("org.apache.httpcomponents:httpmime:4.5.13")
+    compile("org.apache.httpcomponents:httpmime:4.5.14")
 
     // mcp stuff
     shade("de.oceanlabs.mcp:RetroGuard:3.6.6")
