@@ -446,7 +446,7 @@ if (System.getenv("CHECK_JDK_COMPATIBILITY")?.toBoolean() == true) {
                 @Suppress("OPT_IN_USAGE")
                 val major = reading[6].toUByte().toInt().shl(8) or reading[7].toUByte().toInt()
                 if (major > 52)
-                    throw IllegalStateException("${entry.name} of $it is not compatible with java 8")
+                    throw IllegalStateException("${entry.name} of $it is not compatible with java 8: class ${entry.name}")
             }
         }
     }
