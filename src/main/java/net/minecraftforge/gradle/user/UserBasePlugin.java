@@ -276,7 +276,7 @@ public abstract class UserBasePlugin<T extends UserBaseExtension> extends BasePl
         if (!pattern.matcher(project.getVersion().toString()).matches())
         {
             project.getLogger().warn("Version string '"+project.getVersion()+"' does not match SemVer specification ");
-            project.getLogger().warn("You should try SemVer : http://semver.org/");
+            project.getLogger().warn("You should try SemVer : https://semver.org/");
         }
     }
 
