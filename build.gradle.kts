@@ -118,6 +118,25 @@ dependencies {
         exclude(group = "cpw.mods",            module = "modlauncher")
     }
 
+    // pin jdt deps
+    // locked means locked due to java 8
+    shade("org.eclipse.jdt:org.eclipse.jdt.core:3.26.0") // locked
+    shade("org.eclipse.platform:org.eclipse.core.commands:3.9.800") // locked
+    shade("org.eclipse.platform:org.eclipse.core.contenttype:3.7.1000") // locked
+    shade("org.eclipse.platform:org.eclipse.core.expressions:3.7.100") // locked
+    shade("org.eclipse.platform:org.eclipse.core.filesystem:1.7.700") // locked
+    shade("org.eclipse.platform:org.eclipse.core.jobs:3.11.0") // locked
+    shade("org.eclipse.platform:org.eclipse.core.resources:3.14.0") // locked
+    shade("org.eclipse.platform:org.eclipse.core.runtime:3.22.0") // locked
+    shade("org.eclipse.platform:org.eclipse.equinox.app:1.5.100") // locked
+    shade("org.eclipse.platform:org.eclipse.equinox.common:3.14.100") // locked
+    shade("org.eclipse.platform:org.eclipse.equinox.preferences:3.9.100") // locked
+    shade("org.eclipse.platform:org.eclipse.equinox.registry:3.10.200") // locked
+    shade("org.eclipse.platform:org.eclipse.osgi:3.18.100")
+    shade("org.eclipse.platform:org.eclipse.text:3.11.0") // locked
+    shade("org.osgi:org.osgi.service.prefs:1.1.2")
+    shade("org.osgi:osgi.annotation:8.1.0")
+
     //Stuff used in the GradleStart classes
     compileOnly("com.mojang:authlib:1.5.16")
     compileOnly("net.minecraft:launchwrapper:1.11"){
@@ -427,27 +446,33 @@ gradlePlugin {
     isAutomatedPublishing = false
 }
 
-if (System.getenv("CHECK_JDK_COMPATIBILITY")?.toBoolean() == true) {
-    shade.asSequence().forEach {
-        val reading = ByteArray(8)
-        val zis = ZipInputStream(it.inputStream())
-        while (true) {
-            val entry = zis.nextEntry ?: break
-            if (!entry.name.endsWith(".class")) continue
-            if (entry.name == "module-info.class") continue
-            if (entry.name.startsWith("META-INF/")) continue
-            if (zis.read(reading) != reading.size) continue
-            if (reading[0] == 0xCA.toByte() &&
-                reading[1] == 0xFE.toByte() &&
-                reading[2] == 0xBA.toByte() &&
-                reading[3] == 0xBE.toByte() &&
-                reading[4] == 0x00.toByte() &&
-                reading[5] == 0x00.toByte()) {
-                @Suppress("OPT_IN_USAGE")
-                val major = reading[6].toUByte().toInt().shl(8) or reading[7].toUByte().toInt()
-                if (major > 52)
-                    throw IllegalStateException("${entry.name} of $it is not compatible with java 8")
+val dependenciesJava8CompatibilityCheck by tasks.creating {
+    doLast {
+        if (System.getenv("CHECK_JDK_COMPATIBILITY")?.toBoolean() == true) {
+            shade.asSequence().forEach {
+                val reading = ByteArray(8)
+                val zis = ZipInputStream(it.inputStream())
+                while (true) {
+                    val entry = zis.nextEntry ?: break
+                    if (!entry.name.endsWith(".class")) continue
+                    if (entry.name == "module-info.class") continue
+                    if (entry.name.startsWith("META-INF/")) continue
+                    if (zis.read(reading) != reading.size) continue
+                    if (reading[0] == 0xCA.toByte() &&
+                        reading[1] == 0xFE.toByte() &&
+                        reading[2] == 0xBA.toByte() &&
+                        reading[3] == 0xBE.toByte() &&
+                        reading[4] == 0x00.toByte() &&
+                        reading[5] == 0x00.toByte()) {
+                        @Suppress("OPT_IN_USAGE")
+                        val major = reading[6].toUByte().toInt().shl(8) or reading[7].toUByte().toInt()
+                        if (major > 52)
+                            throw IllegalStateException("${entry.name} of $it is not compatible with java 8: class ${entry.name}")
+                    }
+                }
             }
         }
     }
 }
+
+tasks.check.get().dependsOn(dependenciesJava8CompatibilityCheck)

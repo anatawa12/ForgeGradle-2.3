@@ -1,7 +1,7 @@
 /*
  * A Gradle plugin for the creation of Minecraft mods and MinecraftForge plugins.
  * Copyright (C) 2013-2019 Minecraft Forge
- * Copyright (C) 2020-2022 anatawa12 and other contributors
+ * Copyright (C) 2020-2023 anatawa12 and other contributors
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -276,7 +276,7 @@ public abstract class UserBasePlugin<T extends UserBaseExtension> extends BasePl
         if (!pattern.matcher(project.getVersion().toString()).matches())
         {
             project.getLogger().warn("Version string '"+project.getVersion()+"' does not match SemVer specification ");
-            project.getLogger().warn("You should try SemVer : http://semver.org/");
+            project.getLogger().warn("You should try SemVer : https://semver.org/");
         }
     }
 

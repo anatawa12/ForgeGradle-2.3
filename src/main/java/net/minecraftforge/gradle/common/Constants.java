@@ -1,7 +1,7 @@
 /*
  * A Gradle plugin for the creation of Minecraft mods and MinecraftForge plugins.
  * Copyright (C) 2013-2019 Minecraft Forge
- * Copyright (C) 2020-2022 anatawa12 and other contributors
+ * Copyright (C) 2020-2023 anatawa12 and other contributors
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -118,13 +118,13 @@ public class Constants
     // urls
     public static final String URL_MC_MANIFEST     = "https://launchermeta.mojang.com/mc/game/version_manifest.json";
     public static final String URL_FF              = "https://files.minecraftforge.net/fernflower-fix-1.0.zip";
-    public static final String URL_ASSETS          = "http://resources.download.minecraft.net";
+    public static final String URL_ASSETS          = "https://resources.download.minecraft.net";
     public static final String URL_LIBRARY         = "https://libraries.minecraft.net/"; // Mojang's Cloudflare front end
     //public static final String URL_LIBRARY         = "https://minecraft-libraries.s3.amazonaws.com/"; // Mojang's AWS server, as Cloudflare is having issues, TODO: Switch back to above when their servers are fixed.
     public static final String URL_FORGE_MAVEN     = "https://maven.minecraftforge.net";
     public static final List<String> URLS_MCP_JSON = Arrays.asList(
             URL_FORGE_MAVEN + "/de/oceanlabs/mcp/versions.json",
-            "http://export.mcpbot.bspk.rs/versions.json"
+            "https://export.mcpbot.bspk.rs/versions.json"
     );
 
     // configs

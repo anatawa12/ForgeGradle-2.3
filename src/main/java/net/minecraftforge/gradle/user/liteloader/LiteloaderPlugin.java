@@ -1,7 +1,7 @@
 /*
  * A Gradle plugin for the creation of Minecraft mods and MinecraftForge plugins.
  * Copyright (C) 2013-2019 Minecraft Forge
- * Copyright (C) 2020-2022 anatawa12 and other contributors
+ * Copyright (C) 2020-2023 anatawa12 and other contributors
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -52,7 +52,7 @@ public class LiteloaderPlugin extends UserVanillaBasePlugin<LiteloaderExtension>
     public static final String MODFILE_PREFIX = "mod-";
     public static final String MODFILE_EXTENSION = "litemod";
 
-    public static final String VERSION_JSON_URL = "http://dl.liteloader.com/versions/versions.json";
+    public static final String VERSION_JSON_URL = "https://dl.liteloader.com/versions/versions.json";
     public static final String VERSION_JSON_FILENAME = "versions.json";
     public static final String VERSION_JSON_FILE = REPLACE_CACHE_DIR + "/com/mumfrey/liteloader/" + VERSION_JSON_FILENAME;
 
