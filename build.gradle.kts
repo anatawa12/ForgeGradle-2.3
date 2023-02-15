@@ -427,27 +427,33 @@ gradlePlugin {
     isAutomatedPublishing = false
 }
 
-if (System.getenv("CHECK_JDK_COMPATIBILITY")?.toBoolean() == true) {
-    shade.asSequence().forEach {
-        val reading = ByteArray(8)
-        val zis = ZipInputStream(it.inputStream())
-        while (true) {
-            val entry = zis.nextEntry ?: break
-            if (!entry.name.endsWith(".class")) continue
-            if (entry.name == "module-info.class") continue
-            if (entry.name.startsWith("META-INF/")) continue
-            if (zis.read(reading) != reading.size) continue
-            if (reading[0] == 0xCA.toByte() &&
-                reading[1] == 0xFE.toByte() &&
-                reading[2] == 0xBA.toByte() &&
-                reading[3] == 0xBE.toByte() &&
-                reading[4] == 0x00.toByte() &&
-                reading[5] == 0x00.toByte()) {
-                @Suppress("OPT_IN_USAGE")
-                val major = reading[6].toUByte().toInt().shl(8) or reading[7].toUByte().toInt()
-                if (major > 52)
-                    throw IllegalStateException("${entry.name} of $it is not compatible with java 8: class ${entry.name}")
+val dependenciesJava8CompatibilityCheck by tasks.creating {
+    doLast {
+        if (System.getenv("CHECK_JDK_COMPATIBILITY")?.toBoolean() == true) {
+            shade.asSequence().forEach {
+                val reading = ByteArray(8)
+                val zis = ZipInputStream(it.inputStream())
+                while (true) {
+                    val entry = zis.nextEntry ?: break
+                    if (!entry.name.endsWith(".class")) continue
+                    if (entry.name == "module-info.class") continue
+                    if (entry.name.startsWith("META-INF/")) continue
+                    if (zis.read(reading) != reading.size) continue
+                    if (reading[0] == 0xCA.toByte() &&
+                        reading[1] == 0xFE.toByte() &&
+                        reading[2] == 0xBA.toByte() &&
+                        reading[3] == 0xBE.toByte() &&
+                        reading[4] == 0x00.toByte() &&
+                        reading[5] == 0x00.toByte()) {
+                        @Suppress("OPT_IN_USAGE")
+                        val major = reading[6].toUByte().toInt().shl(8) or reading[7].toUByte().toInt()
+                        if (major > 52)
+                            throw IllegalStateException("${entry.name} of $it is not compatible with java 8: class ${entry.name}")
+                    }
+                }
             }
         }
     }
 }
+
+tasks.check.get().dependsOn(dependenciesJava8CompatibilityCheck)
