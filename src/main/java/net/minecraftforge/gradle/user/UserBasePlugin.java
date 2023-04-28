@@ -672,7 +672,7 @@ public abstract class UserBasePlugin<T extends UserBaseExtension> extends BasePl
                     return;
 
                 // add maven repo
-                addMavenRepo(project, "deobfDeps", delayedFile(DIR_DEOBF_DEPS).call().getAbsoluteFile().toURI().getPath());
+                addMavenRepo(project, "deobfDeps", delayedFile(DIR_DEOBF_DEPS).call().getAbsoluteFile().toURI().getPath(), false);
 
                 remapDeps(project, project.getConfigurations().getByName(CONFIG_DEOBF_COMPILE), CONFIG_DC_RESOLVED, compileDummy);
                 remapDeps(project, project.getConfigurations().getByName(CONFIG_DEOBF_PROVIDED), CONFIG_DP_RESOLVED, providedDummy);
