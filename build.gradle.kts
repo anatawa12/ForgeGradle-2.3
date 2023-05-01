@@ -98,7 +98,7 @@ dependencies {
     compile("com.github.jponge:lzma-java:1.3") // replaces the LZMA binary
     compile("com.nothome:javaxdelta:2.0.1") // GDIFF implementation for BinPatches
     compile("com.google.code.gson:gson:2.9.0") // Used instead of Argo for buuilding changelog.
-    compile("com.github.tony19:named-regexp:0.2.6") // 1.7 Named regexp features
+    compile("com.github.tony19:named-regexp:0.2.8") // 1.7 Named regexp features
     compile("net.minecraftforge:forgeflower:1.0.342-SNAPSHOT") // Fernflower Forge edition
 
     shade("net.md-5:SpecialSource:1.11.0") // deobf and reobf
