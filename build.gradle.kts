@@ -120,7 +120,7 @@ dependencies {
 
     // pin jdt deps
     // locked means locked due to java 8
-    shade("org.eclipse.jdt:org.eclipse.jdt.core:3.26.0") // locked
+    shade("org.eclipse.jdt:org.eclipse.jdt.core:3.32.0") // locked
     shade("org.eclipse.platform:org.eclipse.core.commands:3.9.800") // locked
     shade("org.eclipse.platform:org.eclipse.core.contenttype:3.7.1000") // locked
     shade("org.eclipse.platform:org.eclipse.core.expressions:3.7.100") // locked
